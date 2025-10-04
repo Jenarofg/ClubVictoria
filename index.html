@@ -37,8 +37,10 @@
         margin-right: auto;
       }
       .usuario {
-        width: 1000%;
+        padding: 15px;
         border-bottom: 1px solid #ddd;
+        text-align: left;
+        margin-bottom: 10px;
       }
       .usuario b {
         color: #333;
@@ -71,7 +73,10 @@
             ? lista
                 .map(
                   (u) =>
-                    `<div class="usuario"><b>Nº ${u.numero} - ${u.nombre}</b> ${u.apellidos}</div>`
+                    `<div class="usuario">
+                      <div><b>Nº ${u.numero} - ${u.nombre}</b></div>
+                      <div>${u.apellidos}</div>
+                    </div>`
                 )
                 .join("")
             : "<p>No se encontraron resultados.</p>";
