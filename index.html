@@ -38,6 +38,9 @@
       }
       .usuario {
         padding: 10px;
+        display: flex;
+        width: 70%;
+        margin-left: 80px;
         border-bottom: 1px solid #ddd;
       }
       .usuario b {
@@ -95,10 +98,11 @@
           mostrarUsuarios(usuarios.slice().sort((a, b) => a.numero - b.numero));
         } else {
           // Filtrar y mostrar resultados
-          const resultados = usuarios.filter((u) => {
-            const nombreCompleto = `${u.nombre} ${u.apellidos}`.toLowerCase();
-            return nombreCompleto.includes(query);
-          });
+          const resultados = usuarios.filter(
+            (u) =>
+              u.nombre.toLowerCase().includes(query) ||
+              u.apellidos.toLowerCase().includes(query)
+          );
           mostrarUsuarios(resultados);
         }
       });
