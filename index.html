@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Búsqueda de Usuarios</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+      }
+      h1 {
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+      h2 {
+        text-align: center;
+      }
+      .rojo {
+        color: #dc3545;
+      }
+      .azul {
+        color: #007bff;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+      }
+      .usuario {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+      .usuario b {
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      <span class="rojo">Club</span>
+      <span class="azul">Victoria</span>
+      <span class="rojo">de</span>
+      <span class="azul">Perlora</span>
+    </h1>
+    <h2>Búsqueda de Socios</h2>
+    <input
+      type="text"
+      id="search"
+      placeholder="Escribe nombre o apellidos..."
+    />
+
+    <div id="resultados"></div>
+
+    <script>
+      let usuarios = [];
+
+      // Función para mostrar usuarios
+      function mostrarUsuarios(lista) {
+        document.getElementById("resultados").innerHTML =
+          lista.length > 0
+            ? lista
+                .map(
+                  (u) =>
+                    `<div class="usuario"><b>Nº ${u.numero} - ${u.nombre}</b> ${u.apellidos}</div>`
+                )
+                .join("")
+            : "<p>No se encontraron resultados.</p>";
+      }
+
+      // Carga el JSON con los usuarios
+      fetch("usuarios.json")
+        .then((response) => response.json())
+        .then((data) => {
+          usuarios = data;
+          // Mostrar todos los usuarios ordenados por número al cargar
+          mostrarUsuarios(usuarios.slice().sort((a, b) => a.numero - b.numero));
+        });
+
+      // Filtrar en tiempo real
+      document.getElementById("search").addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+
+        if (query === "") {
+          // Si no hay búsqueda, mostrar todos ordenados por número
+          mostrarUsuarios(usuarios.slice().sort((a, b) => a.numero - b.numero));
+        } else {
+          // Filtrar y mostrar resultados
+          const resultados = usuarios.filter(
+            (u) =>
+              u.nombre.toLowerCase().includes(query) ||
+              u.apellidos.toLowerCase().includes(query)
+          );
+          mostrarUsuarios(resultados);
+        }
+      });
+    </script>
+  </body>
+</html>
