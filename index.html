@@ -95,11 +95,10 @@
           mostrarUsuarios(usuarios.slice().sort((a, b) => a.numero - b.numero));
         } else {
           // Filtrar y mostrar resultados
-          const resultados = usuarios.filter(
-            (u) =>
-              u.nombre.toLowerCase().includes(query) ||
-              u.apellidos.toLowerCase().includes(query)
-          );
+          const resultados = usuarios.filter((u) => {
+            const nombreCompleto = `${u.nombre} ${u.apellidos}`.toLowerCase();
+            return nombreCompleto.includes(query);
+          });
           mostrarUsuarios(resultados);
         }
       });
